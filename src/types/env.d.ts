@@ -1,4 +1,5 @@
 // src/types/env.d.ts
+
 interface ImportMetaEnv {
   readonly VITE_AWS_REGION: string;
   readonly VITE_AWS_LOCATION_API_KEY: string;
@@ -15,6 +16,10 @@ interface ImportMetaEnv {
   readonly VITE_MAP_COLOR_SCHEME: string;
 }
 
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
+declare global {
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
 }
+
+export {};
