@@ -7,8 +7,6 @@ import {
   ListItem,
   ListItemText,
   Paper,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { MapControls } from "./MapControls";
 import { MapView } from "./MapView";
@@ -20,12 +18,10 @@ type MapStyle = {
 };
 
 export const MapTerminology = () => {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-
   const [error, setError] = useState<string | null>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
+  // State for map controls
   const [selectedStyle, setSelectedStyle] = useState<string>(
     import.meta.env.VITE_MAP_STYLE || "VectorEsriStreets"
   );
@@ -109,52 +105,33 @@ export const MapTerminology = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: isSmallScreen ? "column" : "row",
-        height: "100vh",
-        width: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          flex: isSmallScreen ? "none" : "0 0 320px",
-          width: isSmallScreen ? "100%" : "320px",
-          height: isSmallScreen ? "auto" : "100%",
-          borderRight: isSmallScreen ? "none" : "1px solid #ccc",
-          borderBottom: isSmallScreen ? "1px solid #ccc" : "none",
-        }}
-      >
-        <MapControls
-          colorScheme={colorScheme}
-          onColorSchemeChange={setColorScheme}
-          showVectorLayers={showVectorLayers}
-          onVectorLayersChange={setShowVectorLayers}
-          zoomLevel={zoomLevel}
-          onZoomChange={setZoomLevel}
-          pitch={pitch}
-          onPitchChange={setPitch}
-          bearing={bearing}
-          onBearingChange={setBearing}
-        />
-      </Box>
+    <Box sx={{ display: "flex", height: "100vh", width: "100%" }}>
+      <MapControls
+        colorScheme={colorScheme}
+        onColorSchemeChange={setColorScheme}
+        showVectorLayers={showVectorLayers}
+        onVectorLayersChange={setShowVectorLayers}
+        zoomLevel={zoomLevel}
+        onZoomChange={setZoomLevel}
+        pitch={pitch}
+        onPitchChange={setPitch}
+        bearing={bearing}
+        onBearingChange={setBearing}
+      />
 
-      <Box sx={{ flex: 1, height: isSmallScreen ? "60vh" : "100%" }}>
-        <MapView
-          selectedStyle={selectedStyle}
-          colorScheme={colorScheme}
-          zoomLevel={zoomLevel}
-          pitch={pitch}
-          bearing={bearing}
-          showVectorLayers={showVectorLayers}
-          showRasterLayers={showRasterLayers}
-          isMapLoaded={isMapLoaded}
-          setIsMapLoaded={setIsMapLoaded}
-          setError={setError}
-          mapStyles={mapStyles}
-        />
-      </Box>
+      <MapView
+        selectedStyle={selectedStyle}
+        colorScheme={colorScheme}
+        zoomLevel={zoomLevel}
+        pitch={pitch}
+        bearing={bearing}
+        showVectorLayers={showVectorLayers}
+        showRasterLayers={showRasterLayers}
+        isMapLoaded={isMapLoaded}
+        setIsMapLoaded={setIsMapLoaded}
+        setError={setError}
+        mapStyles={mapStyles}
+      />
     </Box>
   );
 };
