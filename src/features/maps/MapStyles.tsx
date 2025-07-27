@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 export const MapStyles = () => {
   return (
     <Box>
-      <h2>Map Styles</h2>
+      <h2>Map Style</h2>
       <ol>
         <li>Understanding the different map styles available.</li>
         <li>Key concepts and terminology used in map styling.</li>

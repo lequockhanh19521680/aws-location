@@ -1,8 +1,9 @@
 // src/utils/serviceComponents.ts
 
 import { DefaultComponent } from "../components/DefaultComponent";
-import { MapConcepts } from "../components/maps/MapConcepts";
-import { MapStyles } from "../components/maps/MapStyles";
+import { MapConcepts } from "../features/maps/MapConcepts";
+import { MapStyles } from "../features/maps/MapStyles";
+
 import { ServiceId, ServiceIds } from "./serviceTypes";
 
 export const serviceComponents = {
