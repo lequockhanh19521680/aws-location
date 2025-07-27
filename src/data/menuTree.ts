@@ -1,4 +1,3 @@
-// src/data/menuTree.ts
 import { ServiceIds } from "../utils/serviceTypes";
 
 export interface MenuItem {
@@ -13,146 +12,166 @@ export const menuTree: MenuItem[] = [
   {
     label: "Maps",
     icon: "MapRounded",
-    description: "Map-related features and documentation",
+    description: "Map related features and documentation",
     children: [
       {
         id: ServiceIds.MAP_CONCEPTS,
         label: "Map concepts",
         description: "Learn about map fundamentals",
+        icon: "MapOutlined",
       },
       {
         id: ServiceIds.MAP_STYLES,
         label: "Map styles",
         description: "Explore available map styles",
+        icon: "PaletteOutlined",
       },
       {
         id: ServiceIds.MAP_APIS,
         label: "Map APIs",
         description: "Integrate with our mapping APIs",
+        icon: "CodeOutlined",
       },
       {
-        id: ServiceIds.HOW_TO,
+        id: ServiceIds.MAP_HOW_TO,
         label: "How to",
         description: "Step-by-step guides",
+        icon: "MenuBookOutlined",
       },
       {
-        id: ServiceIds.COST_MANAGEMENT,
+        id: ServiceIds.MAP_COST_MANAGEMENT,
         label: "Manage costs and usage",
         description: "Optimize your spending",
+        icon: "AttachMoneyOutlined",
       },
     ],
   },
   {
     label: "Places",
     icon: "LocationOnRounded",
-    description: "Places search and geocoding services",
+    description: "Places search and geocoding features",
     children: [
       {
         id: ServiceIds.PLACES_CONCEPTS,
         label: "Places concepts",
         description: "Understand places service",
+        icon: "HelpOutlineOutlined",
       },
       {
         id: ServiceIds.PLACES_APIS,
         label: "Places APIs",
         description: "Access places APIs",
+        icon: "ApiOutlined",
       },
       {
-        id: ServiceIds.HOW_TO,
+        id: ServiceIds.PLACES_HOW_TO,
         label: "How to",
         description: "Implementation guides",
+        icon: "BuildOutlined",
       },
       {
-        id: ServiceIds.COST_MANAGEMENT,
+        id: ServiceIds.PLACES_COST_MANAGEMENT,
         label: "Manage costs and usage",
         description: "Cost management",
+        icon: "SavingsOutlined",
       },
     ],
   },
   {
     label: "Routes",
     icon: "RouteRounded",
-    description: "Routing features and documentation",
+    description: "Routing and directions features",
     children: [
       {
         id: ServiceIds.ROUTES_CONCEPTS,
         label: "Routes concepts",
         description: "Routing fundamentals",
+        icon: "TimelineOutlined",
       },
       {
         id: ServiceIds.ROUTE_APIS,
         label: "Route APIs",
         description: "Routing API documentation",
+        icon: "RouteOutlined",
       },
       {
-        id: ServiceIds.HOW_TO,
+        id: ServiceIds.ROUTES_HOW_TO,
         label: "How to",
         description: "Implementation examples",
+        icon: "DirectionsOutlined",
       },
       {
-        id: ServiceIds.COST_MANAGEMENT,
+        id: ServiceIds.ROUTES_COST_MANAGEMENT,
         label: "Manage costs and usage",
         description: "Pricing details",
+        icon: "LocalAtmOutlined",
       },
     ],
   },
   {
     label: "Geofences",
     icon: "LayersRounded",
-    description: "Geofencing features and documentation",
+    description: "Geofencing and boundary management",
     children: [
       {
         id: ServiceIds.GEOFENCE_CONCEPTS,
         label: "Geofence concepts",
         description: "Geofencing basics",
+        icon: "FenceOutlined",
       },
       {
-        id: ServiceIds.GET_STARTED,
+        id: ServiceIds.GEOFENCE_GET_STARTED,
         label: "Get started",
         description: "Quick start guide",
+        icon: "PlayCircleOutlineOutlined",
       },
       {
-        id: ServiceIds.HOW_TO,
+        id: ServiceIds.GEOFENCE_HOW_TO,
         label: "How to",
         description: "Detailed instructions",
+        icon: "ListAltOutlined",
       },
       {
-        id: ServiceIds.COST_MANAGEMENT,
+        id: ServiceIds.GEOFENCE_COST_MANAGEMENT,
         label: "Manage costs and usage",
         description: "Cost optimization",
+        icon: "PaidOutlined",
       },
     ],
   },
   {
     label: "Trackers",
     icon: "SatelliteAltRounded",
-    description: "Tracking features and documentation",
+    description: "Tracking devices and assets",
     children: [
       {
         id: ServiceIds.TRACKER_CONCEPTS,
         label: "Tracker concepts",
         description: "Tracking fundamentals",
+        icon: "RadarOutlined",
       },
       {
-        id: ServiceIds.GET_STARTED,
+        id: ServiceIds.TRACKER_GET_STARTED,
         label: "Get started",
         description: "Quick setup guide",
+        icon: "RocketLaunchOutlined",
       },
       {
-        id: ServiceIds.HOW_TO,
+        id: ServiceIds.TRACKER_HOW_TO,
         label: "How to",
         description: "Usage examples",
+        icon: "SettingsOutlined",
       },
       {
-        id: ServiceIds.COST_MANAGEMENT,
+        id: ServiceIds.TRACKER_COST_MANAGEMENT,
         label: "Manage costs and usage",
         description: "Pricing information",
+        icon: "MonetizationOnOutlined",
       },
     ],
   },
 ];
 
-// Helper function to find a menu item by ID
 export const findMenuItemById = (id: string): MenuItem | undefined => {
   for (const category of menuTree) {
     if (category.children) {
@@ -163,7 +182,6 @@ export const findMenuItemById = (id: string): MenuItem | undefined => {
   return undefined;
 };
 
-// Helper function to get all available IDs
 export const getAllServiceIds = (): string[] => {
   return menuTree
     .flatMap((category) => category.children || [])

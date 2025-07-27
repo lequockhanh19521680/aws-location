@@ -2,11 +2,11 @@
 import { Box, Typography, Chip, Stack, Divider } from "@mui/material";
 import { MapRounded } from "@mui/icons-material";
 
-export const RouteConcepts = () => (
+export const GeoConcepts = () => (
   <Box>
     <Stack direction="row" alignItems="center" spacing={2} mb={3}>
       <MapRounded color="primary" fontSize="large" />
-      <Typography variant="h5">Route Concepts</Typography>
+      <Typography variant="h5">Map Concepts</Typography>
     </Stack>
 
     <Typography paragraph>
@@ -27,21 +27,3 @@ export const RouteConcepts = () => (
     </Stack>
   </Box>
 );
-
-export const MapStyles = () => (
-  <Box>
-    <Stack direction="row" alignItems="center" spacing={2} mb={3}>
-      <MapRounded color="primary" fontSize="large" />
-      <Typography variant="h5">Map Styles</Typography>
-    </Stack>
-
-    <Typography paragraph>
-      Choose from several map styles including Vector, Raster, and 3D
-      visualization options.
-    </Typography>
-
-    {/* Add more content */}
-  </Box>
-);
-
-// Create similar components for other map services

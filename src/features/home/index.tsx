@@ -1,3 +1,4 @@
+// src/pages/Home.tsx
 import { Box, Typography, styled, alpha } from "@mui/material";
 import { useState, useMemo } from "react";
 import { TreeItem, SimpleTreeView } from "@mui/x-tree-view";
@@ -11,12 +12,33 @@ import {
   SatelliteAltRounded,
   RouteRounded,
   LocationOnRounded,
+  // Thêm các icon mới
+  MapOutlined,
+  PaletteOutlined,
+  CodeOutlined,
+  MenuBookOutlined,
+  AttachMoneyOutlined,
+  HelpOutlineOutlined,
+  ApiOutlined,
+  BuildOutlined,
+  SavingsOutlined,
+  TimelineOutlined,
+  RouteOutlined,
+  DirectionsOutlined,
+  LocalAtmOutlined,
+  FenceOutlined,
+  PlayCircleOutlineOutlined,
+  ListAltOutlined,
+  PaidOutlined,
+  RadarOutlined,
+  RocketLaunchOutlined,
+  SettingsOutlined,
+  MonetizationOnOutlined,
 } from "@mui/icons-material";
 import { menuTree } from "../../data/menuTree";
 import { getServiceComponent } from "../../utils/serviceComponents";
 import { ServiceId } from "../../utils/serviceTypes";
 
-// Enhanced TreeItem with smooth press effects
 const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
   "& .MuiTreeItem-label": {
     padding: "8px 12px",
@@ -27,7 +49,6 @@ const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
   },
 }));
 
-// Container with AWS-style dark header
 const TreeViewContainer = styled(Box)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: "8px",
@@ -39,91 +60,73 @@ const TreeViewContainer = styled(Box)(({ theme }) => ({
   height: "100%",
 }));
 
-const TreeHeader = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.dark,
-  color: theme.palette.primary.contrastText,
-  padding: "12px 16px",
-  display: "flex",
-  alignItems: "center",
-  gap: theme.spacing(1),
-}));
-
-// Content panel with smooth transitions
-const ContentPanel = styled(Box)(({ theme }) => ({
-  flex: 1,
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: "8px",
-  overflow: "hidden",
-  backgroundColor: theme.palette.background.paper,
-  display: "flex",
-  flexDirection: "column",
-}));
-
-const ContentHeader = styled(Box)(({ theme }) => ({
-  backgroundColor: alpha(theme.palette.primary.main, 0.05),
-  borderBottom: `1px solid ${theme.palette.divider}`,
-  padding: "16px 24px",
-  display: "flex",
-  alignItems: "center",
-  gap: theme.spacing(1),
-}));
-
-const ContentBody = styled(Box)(({ theme }) => ({
-  flex: 1,
-  padding: "24px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  background: `linear-gradient(135deg, ${alpha(
-    theme.palette.primary.light,
-    0.02
-  )} 0%, ${alpha(theme.palette.background.default, 0.1)} 100%)`,
-  transition: "all 0.3s ease",
-}));
-
-// Icon mapper with fallback
-const getIconForItem = (label = "") => {
-  if (label.includes("Map")) return <MapRounded />;
-  if (label.includes("Place")) return <LocationOnRounded />;
-  if (label.includes("Route")) return <RouteRounded />;
-  if (label.includes("Geofence")) return <LayersRounded />;
-  if (label.includes("Tracker")) return <SatelliteAltRounded />;
-  return <DescriptionRounded />;
+// Component mapping cho các icon
+const iconComponents: Record<string, React.ComponentType<any>> = {
+  MapRounded,
+  LocationOnRounded,
+  RouteRounded,
+  LayersRounded,
+  SatelliteAltRounded,
+  MapOutlined,
+  PaletteOutlined,
+  CodeOutlined,
+  MenuBookOutlined,
+  AttachMoneyOutlined,
+  HelpOutlineOutlined,
+  ApiOutlined,
+  BuildOutlined,
+  SavingsOutlined,
+  TimelineOutlined,
+  RouteOutlined,
+  DirectionsOutlined,
+  LocalAtmOutlined,
+  FenceOutlined,
+  PlayCircleOutlineOutlined,
+  ListAltOutlined,
+  PaidOutlined,
+  RadarOutlined,
+  RocketLaunchOutlined,
+  SettingsOutlined,
+  MonetizationOnOutlined,
 };
 
 export const Home = () => {
-  const [selected, setSelected] = useState("");
+  const [selectedId, setSelectedId] = useState<ServiceId | null>(null);
 
-  const flattenedItems = useMemo(
-    () =>
-      menuTree.flatMap((group, i) =>
-        group.children
-          ? group.children.map((item, j) => ({
-              id: `item-${i}-${j}`,
-              label: item.label,
-              description: item.description,
-              group: group.label,
-              groupIcon: group.icon,
-            }))
-          : []
-      ),
-    []
-  );
-
-  const selectedItem = useMemo(
-    () => flattenedItems.find((item) => item.id === selected),
-    [selected, flattenedItems]
-  );
+  const selectedItem = useMemo(() => {
+    if (!selectedId) return null;
+    for (const group of menuTree) {
+      const found = group.children?.find((item) => item.id === selectedId);
+      if (found) return found;
+    }
+    return null;
+  }, [selectedId]);
 
   const SelectedComponent = useMemo(() => {
-    if (!selectedItem) return null;
-    return getServiceComponent(selectedItem.label as ServiceId);
-  }, [selectedItem]);
+    if (!selectedId) return null;
+    return getServiceComponent(selectedId);
+  }, [selectedId]);
 
-  const handleItemSelect = (event, itemId) => {
-    event.preventDefault();
-    setSelected(itemId);
+  const handleItemSelect = (
+    event: React.SyntheticEvent<Element, Event> | null,
+    itemIds: string | null
+  ) => {
+    if (!itemIds) return;
+    const itemId = itemIds;
+    if (
+      menuTree.some((group) =>
+        group.children?.some((child) => child.id === itemId)
+      )
+    ) {
+      setSelectedId(itemId as ServiceId);
+    }
+  };
+
+  // Hàm render icon dựa trên tên icon
+  const renderIcon = (iconName?: string) => {
+    if (!iconName) return null;
+    const IconComponent = iconComponents[iconName];
+    return IconComponent ? <IconComponent fontSize="small" /> : null;
   };
 
   return (
@@ -138,12 +141,21 @@ export const Home = () => {
     >
       {/* Navigation Tree */}
       <TreeViewContainer sx={{ minWidth: 280 }}>
-        <TreeHeader>
+        <Box
+          sx={{
+            backgroundColor: (theme) => theme.palette.primary.dark,
+            color: (theme) => theme.palette.primary.contrastText,
+            padding: "12px 16px",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
           <MapRounded sx={{ fontSize: "20px" }} />
           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
             AWS Location Services
           </Typography>
-        </TreeHeader>
+        </Box>
 
         <SimpleTreeView
           slots={{
@@ -160,43 +172,65 @@ export const Home = () => {
           disableSelection={false}
           multiSelect={false}
         >
-          {menuTree.map((group, i) => (
+          {menuTree.map((group) => (
             <StyledTreeItem
-              itemId={`group-${i}`}
+              itemId={`group-${group.label}`}
               key={group.label}
               label={
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  {getIconForItem(group.label)}
+                  {renderIcon(group.icon)}
                   <Typography variant="subtitle1">{group.label}</Typography>
                 </Box>
               }
             >
-              {group.children?.map((item, j) => (
-                <StyledTreeItem
-                  itemId={`item-${i}-${j}`}
-                  key={`item-${i}-${j}`}
-                  label={
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
-                    >
-                      {getIconForItem(item.label)}
-                      <Typography variant="body1">{item.label}</Typography>
-                    </Box>
-                  }
-                  sx={{ pl: 2.5 }}
-                />
-              ))}
+              {group.children
+                ?.filter((item) => typeof item.id === "string")
+                .map((item) => (
+                  <StyledTreeItem
+                    itemId={item.id as string}
+                    key={item.id}
+                    label={
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
+                      >
+                        {renderIcon(item.icon)}
+                        <Typography variant="body1">{item.label}</Typography>
+                      </Box>
+                    }
+                    sx={{ pl: 2.5 }}
+                  />
+                ))}
             </StyledTreeItem>
           ))}
         </SimpleTreeView>
       </TreeViewContainer>
 
       {/* Content Panel */}
-      <ContentPanel>
-        <ContentHeader>
+      <Box
+        sx={{
+          flex: 1,
+          border: "1px solid",
+          borderColor: (theme) => theme.palette.divider,
+          borderRadius: "8px",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.05),
+            borderBottom: "1px solid",
+            borderColor: (theme) => theme.palette.divider,
+            padding: "16px 24px",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
           {selectedItem ? (
             <>
-              {getIconForItem(selectedItem.label)}
+              {renderIcon(selectedItem.icon)}
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 {selectedItem.label}
               </Typography>
@@ -209,21 +243,36 @@ export const Home = () => {
               </Typography>
             </>
           )}
-        </ContentHeader>
+        </Box>
 
-        <ContentBody>
+        <Box
+          sx={{
+            flex: 1,
+            padding: "24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            background: (theme) =>
+              `linear-gradient(135deg, ${alpha(
+                theme.palette.background.default,
+                0.02
+              )} 0%, ${alpha(theme.palette.background.default, 0.1)} 100%)`,
+          }}
+        >
           {SelectedComponent ? (
             <Box
               sx={{
-                backgroundColor: alpha("#fff", 0.9),
-                border: `1px solid ${alpha("#ddd", 0.3)}`,
+                backgroundColor: (theme) =>
+                  alpha(theme.palette.common.white, 0.9),
+                border: (theme) =>
+                  `1px solid ${alpha(theme.palette.divider, 0.3)}`,
                 borderRadius: "8px",
                 padding: "32px",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
                 width: "100%",
                 maxWidth: "800px",
                 textAlign: "left",
-                transition: "all 0.3s ease",
               }}
             >
               <SelectedComponent />
@@ -244,8 +293,8 @@ export const Home = () => {
               </Typography>
             </Box>
           )}
-        </ContentBody>
-      </ContentPanel>
+        </Box>
+      </Box>
     </Box>
   );
 };
