@@ -263,16 +263,10 @@ export const Home = () => {
           {SelectedComponent ? (
             <Box
               sx={{
-                backgroundColor: (theme) =>
-                  alpha(theme.palette.common.white, 0.9),
-                border: (theme) =>
-                  `1px solid ${alpha(theme.palette.divider, 0.3)}`,
-                borderRadius: "8px",
-                padding: "32px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                flex: 1,
                 width: "100%",
-                maxWidth: "800px",
-                textAlign: "left",
+                height: "100%",
+                overflow: "auto", // optional: scroll nếu component dài
               }}
             >
               <SelectedComponent />
